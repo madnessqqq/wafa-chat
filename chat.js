@@ -1,25 +1,47 @@
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
+
+import {
+onAuthStateChanged,
+signOut
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
 
 import {
 
-onAuthStateChanged,
-signOut
+collection,
+addDoc,
+serverTimestamp,
+onSnapshot,
+query,
+orderBy
 
-} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 
+
+const input = document.getElementById("messageInput");
+const send = document.getElementById("send");
+const messages = document.getElementById("messages");
 
 const logout = document.getElementById("logout");
 
 
 
-onAuthStateChanged(auth,(user)=>{
+let user = null;
 
 
-if(!user){
+
+onAuthStateChanged(auth,(u)=>{
+
+
+if(!u){
 
 window.location.href="index.html";
+
+}
+else{
+
+user=u;
 
 }
 
@@ -29,11 +51,87 @@ window.location.href="index.html";
 
 
 
+// отправка сообщения
+
+send.onclick = async()=>{
+
+
+if(input.value.trim()=="") return;
+
+
+await addDoc(collection(db,"messages"),{
+
+
+text: input.value,
+
+user: user.email,
+
+time: serverTimestamp()
+
+
+});
+
+
+input.value="";
+
+
+};
+
+
+
+
+
+// загрузка сообщений
+
+const q = query(
+
+collection(db,"messages"),
+
+orderBy("time")
+
+);
+
+
+
+onSnapshot(q,(snapshot)=>{
+
+
+messages.innerHTML="";
+
+
+snapshot.forEach((doc)=>{
+
+
+let data = doc.data();
+
+
+messages.innerHTML += `
+
+<p>
+
+<b>${data.user}</b>:
+
+${data.text}
+
+</p>
+
+
+`;
+
+
+});
+
+
+});
+
+
+
+
+
 logout.onclick=async()=>{
 
 
 await signOut(auth);
-
 
 window.location.href="index.html";
 

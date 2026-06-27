@@ -13,7 +13,12 @@ addDoc,
 serverTimestamp,
 onSnapshot,
 query,
-orderBy
+orderBy,
+doc,
+setDoc,
+getDoc,
+collection,
+getDocs
 
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 

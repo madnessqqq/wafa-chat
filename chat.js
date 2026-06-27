@@ -30,6 +30,7 @@ let currentChat = "global";
 
 
 const input = document.getElementById("messageInput");
+
 const send = document.getElementById("send");
 
 const messages = document.getElementById("messages");
@@ -41,6 +42,23 @@ const contacts = document.getElementById("contacts");
 const addContact = document.getElementById("addContact");
 
 const contactEmail = document.getElementById("contactEmail");
+
+
+
+
+
+
+// создаём одинаковый ID для двух людей
+
+function getChatId(email1,email2){
+
+return [email1,email2]
+.sort()
+.join("_");
+
+}
+
+
 
 
 
@@ -63,12 +81,16 @@ return;
 
 user=u;
 
+
 loadContacts();
 
 openChat("global");
 
 
 });
+
+
+
 
 
 
@@ -91,15 +113,22 @@ messages.innerHTML="";
 const q=query(
 
 collection(
+
 db,
+
 "chats",
+
 currentChat,
+
 "messages"
+
 ),
 
 orderBy("time")
 
 );
+
+
 
 
 
@@ -145,7 +174,9 @@ ${data.text}
 
 
 
-// отправка
+
+
+// отправить сообщение
 
 
 send.onclick=async()=>{
@@ -158,10 +189,15 @@ if(!input.value.trim()) return;
 await addDoc(
 
 collection(
+
 db,
+
 "chats",
+
 currentChat,
+
 "messages"
+
 ),
 
 
@@ -193,7 +229,9 @@ input.value="";
 
 
 
-// общий чат кнопка
+
+
+// общий чат
 
 
 document.querySelector(".chat-item").onclick=()=>{
@@ -203,6 +241,7 @@ openChat("global");
 
 
 };
+
 
 
 
@@ -268,6 +307,7 @@ loadContacts();
 
 
 
+
 // загрузка контактов
 
 
@@ -278,7 +318,7 @@ contacts.innerHTML="";
 
 
 
-const snap=await getDocs(
+const snap = await getDocs(
 
 collection(
 
@@ -296,6 +336,8 @@ user.uid,
 
 
 
+
+
 snap.forEach((item)=>{
 
 
@@ -303,7 +345,7 @@ let email=item.data().email;
 
 
 
-contacts.innerHTML+=`
+contacts.innerHTML += `
 
 
 <button class="chat-item contact">
@@ -321,6 +363,10 @@ contacts.innerHTML+=`
 
 
 
+
+
+
+
 document.querySelectorAll(".contact")
 
 .forEach(btn=>{
@@ -329,7 +375,21 @@ document.querySelectorAll(".contact")
 btn.onclick=()=>{
 
 
-openChat(btn.innerText.replace("👤 ",""));
+let email = btn.innerText.replace("👤 ","");
+
+
+
+let chatId = getChatId(
+
+user.email,
+
+email
+
+);
+
+
+
+openChat(chatId);
 
 
 };
@@ -341,6 +401,9 @@ openChat(btn.innerText.replace("👤 ",""));
 
 
 }
+
+
+
 
 
 

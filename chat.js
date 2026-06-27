@@ -1,9 +1,13 @@
 import { auth, db } from "./firebase.js";
 
+
 import {
+
 onAuthStateChanged,
 signOut
+
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
 
 
 import {
@@ -16,25 +20,40 @@ query,
 orderBy,
 doc,
 setDoc,
-getDoc,
-collection,
 getDocs
 
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 
 
+
+
 const input = document.getElementById("messageInput");
+
 const send = document.getElementById("send");
+
 const messages = document.getElementById("messages");
 
 const logout = document.getElementById("logout");
 
 
 
+const addContact = document.getElementById("addContact");
+
+const contactEmail = document.getElementById("contactEmail");
+
+const contacts = document.getElementById("contacts");
+
+
+
 let user = null;
 
 
+
+
+
+
+// проверка входа
 
 onAuthStateChanged(auth,(u)=>{
 
@@ -43,12 +62,15 @@ if(!u){
 
 window.location.href="index.html";
 
-}
-else{
-
-user=u;
+return;
 
 }
+
+
+user = u;
+
+
+loadContacts();
 
 
 });
@@ -56,15 +78,23 @@ user=u;
 
 
 
+
+
+
 // отправка сообщения
+
 
 send.onclick = async()=>{
 
 
-if(input.value.trim()=="") return;
+if(!input.value.trim()) return;
 
 
-await addDoc(collection(db,"messages"),{
+await addDoc(
+
+collection(db,"messages"),
+
+{
 
 
 text: input.value,
@@ -74,7 +104,11 @@ user: user.email,
 time: serverTimestamp()
 
 
-});
+}
+
+
+);
+
 
 
 input.value="";
@@ -86,7 +120,12 @@ input.value="";
 
 
 
+
+
+
+
 // загрузка сообщений
+
 
 const q = query(
 
@@ -104,10 +143,12 @@ onSnapshot(q,(snapshot)=>{
 messages.innerHTML="";
 
 
+
 snapshot.forEach((doc)=>{
 
 
 let data = doc.data();
+
 
 
 messages.innerHTML += `
@@ -124,34 +165,37 @@ ${data.text}
 `;
 
 
-});
-
 
 });
 
 
+});
 
 
 
-logout.onclick=async()=>{
+
+
+
+
+
+
+// выход
+
+
+logout.onclick = async()=>{
 
 
 await signOut(auth);
+
 
 window.location.href="index.html";
 
 
 };
-const addContact =
-document.getElementById("addContact");
 
 
-const contactEmail =
-document.getElementById("contactEmail");
 
 
-const contacts =
-document.getElementById("contacts");
 
 
 
@@ -159,10 +203,12 @@ document.getElementById("contacts");
 
 // добавить контакт
 
+
 addContact.onclick = async()=>{
 
 
-let email = contactEmail.value;
+let email = contactEmail.value.trim();
+
 
 
 if(!email) return;
@@ -172,16 +218,25 @@ if(!email) return;
 await setDoc(
 
 doc(
+
 db,
+
 "users",
+
 user.uid,
+
 "contacts",
+
 email
+
 ),
+
 
 {
 
-email:email
+
+email: email
+
 
 }
 
@@ -206,7 +261,11 @@ loadContacts();
 
 
 
+
+
+
 // загрузка контактов
+
 
 async function loadContacts(){
 
@@ -214,52 +273,44 @@ async function loadContacts(){
 contacts.innerHTML="";
 
 
-const snap =
-await getDocs(
+
+const snap = await getDocs(
 
 collection(
+
 db,
+
 "users",
+
 user.uid,
+
 "contacts"
+
 )
 
 );
 
 
 
-snap.forEach((doc)=>{
+
+snap.forEach((item)=>{
 
 
 contacts.innerHTML += `
 
+
 <button class="chat-item">
 
-👤 ${doc.data().email}
+👤 ${item.data().email}
 
 </button>
+
 
 `;
 
 
+
 });
 
 
 }
-
-
-
-
-onAuthStateChanged(auth,(u)=>{
-
-
-if(u){
-
-user=u;
-
-loadContacts();
-
-}
-
-
-});

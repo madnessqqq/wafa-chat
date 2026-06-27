@@ -4,6 +4,7 @@
 }
 
 
+
 body{
 
     margin:0;
@@ -24,7 +25,8 @@ body{
 
 
 
-/* окно авторизации */
+/* ===== Авторизация ===== */
+
 
 .container{
 
@@ -55,7 +57,6 @@ h1{
 
 
 
-
 input{
 
     width:100%;
@@ -75,7 +76,6 @@ input{
     font-size:16px;
 
 }
-
 
 
 
@@ -110,13 +110,11 @@ button:hover{
 
 
 
-
 .hidden{
 
     display:none;
 
 }
-
 
 
 
@@ -129,7 +127,10 @@ button:hover{
 
 
 
-/* ================= CHAT ================= */
+
+
+
+/* ===== Чат ===== */
 
 
 
@@ -154,7 +155,9 @@ button:hover{
 
 
 
-/* список чатов */
+
+/* левая панель */
+
 
 .sidebar{
 
@@ -164,8 +167,9 @@ button:hover{
 
     padding:20px;
 
-}
+    overflow-y:auto;
 
+}
 
 
 
@@ -174,7 +178,6 @@ button:hover{
     color:#60a5fa;
 
 }
-
 
 
 
@@ -205,7 +208,8 @@ button:hover{
 
 
 
-/* окно сообщений */
+
+/* окно чата */
 
 
 .chat-window{
@@ -234,6 +238,7 @@ button:hover{
 
 
 
+
 #messages{
 
     flex:1;
@@ -243,6 +248,7 @@ button:hover{
     overflow-y:auto;
 
 }
+
 
 
 
@@ -261,6 +267,8 @@ button:hover{
 
 
 
+
+
 /* отправка */
 
 
@@ -273,6 +281,7 @@ button:hover{
     gap:10px;
 
 }
+
 
 
 
@@ -302,6 +311,7 @@ button:hover{
 
 
 
+
 #logout{
 
     width:120px;
@@ -314,10 +324,67 @@ button:hover{
 
 
 
+
+
+
+/* контакты + удаление */
+
+
+.contact-row{
+
+    display:flex;
+
+    gap:5px;
+
+    align-items:center;
+
+}
+
+
+
+
+.contact-row .contact{
+
+    flex:1;
+
+}
+
+
+
+
+
+.delete-contact{
+
+    width:45px;
+
+    background:#dc2626;
+
+    padding:10px;
+
+}
+
+
+
+
+
+.delete-contact:hover{
+
+    background:#b91c1c;
+
+}
+
+
+
+
+
+
+
+
 /* телефон */
 
 
 @media(max-width:700px){
+
 
 
 .chat-app{
@@ -332,13 +399,15 @@ button:hover{
 
 
 
+
 .sidebar{
 
-    width:100px;
+    width:120px;
 
     padding:10px;
 
 }
+
 
 
 
@@ -348,40 +417,7 @@ button:hover{
 
 }
 
-.contact-row{
-
-display:flex;
-
-gap:5px;
-
-align-items:center;
-
-}
 
 
 
-.contact-row .contact{
-
-flex:1;
-
-}
-
-
-
-.delete-contact{
-
-width:45px;
-
-background:#dc2626;
-
-padding:10px;
-
-}
-
-
-.delete-contact:hover{
-
-background:#b91c1c;
-
-}
 }

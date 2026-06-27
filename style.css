@@ -348,5 +348,40 @@ button:hover{
 
 }
 
+.contact-row{
 
+display:flex;
+
+gap:5px;
+
+align-items:center;
+
+}
+
+
+
+.contact-row .contact{
+
+flex:1;
+
+}
+
+
+
+.delete-contact{
+
+width:45px;
+
+background:#dc2626;
+
+padding:10px;
+
+}
+
+
+.delete-contact:hover{
+
+background:#b91c1c;
+
+}
 }

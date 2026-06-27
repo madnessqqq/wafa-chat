@@ -142,3 +142,124 @@ window.location.href="index.html";
 
 
 };
+const addContact =
+document.getElementById("addContact");
+
+
+const contactEmail =
+document.getElementById("contactEmail");
+
+
+const contacts =
+document.getElementById("contacts");
+
+
+
+
+
+// добавить контакт
+
+addContact.onclick = async()=>{
+
+
+let email = contactEmail.value;
+
+
+if(!email) return;
+
+
+
+await setDoc(
+
+doc(
+db,
+"users",
+user.uid,
+"contacts",
+email
+),
+
+{
+
+email:email
+
+}
+
+
+);
+
+
+
+alert("Контакт добавлен ✅");
+
+
+contactEmail.value="";
+
+
+loadContacts();
+
+
+};
+
+
+
+
+
+
+// загрузка контактов
+
+async function loadContacts(){
+
+
+contacts.innerHTML="";
+
+
+const snap =
+await getDocs(
+
+collection(
+db,
+"users",
+user.uid,
+"contacts"
+)
+
+);
+
+
+
+snap.forEach((doc)=>{
+
+
+contacts.innerHTML += `
+
+<button class="chat-item">
+
+👤 ${doc.data().email}
+
+</button>
+
+`;
+
+
+});
+
+
+}
+
+
+
+
+onAuthStateChanged(auth,(u)=>{
+
+
+if(u){
+
+user=u;
+
+loadContacts();
+
+}
+
+
+});

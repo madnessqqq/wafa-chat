@@ -28,6 +28,9 @@ let user = null;
 
 let currentChat = "global";
 
+let unsubscribe = null;
+
+
 
 
 const input = document.getElementById("messageInput");
@@ -49,8 +52,6 @@ const contactEmail = document.getElementById("contactEmail");
 
 
 
-// одинаковый ID чата для двух пользователей
-
 function getChatId(email1,email2){
 
 return [email1,email2]
@@ -64,9 +65,6 @@ return [email1,email2]
 
 
 
-
-
-// вход
 
 
 onAuthStateChanged(auth,(u)=>{
@@ -99,9 +97,6 @@ openChat("global");
 
 
 
-// открыть чат
-
-
 function openChat(id){
 
 
@@ -109,6 +104,16 @@ currentChat=id;
 
 
 messages.innerHTML="";
+
+
+
+// выключаем старый чат
+
+if(unsubscribe){
+
+unsubscribe();
+
+}
 
 
 
@@ -134,7 +139,7 @@ orderBy("time")
 
 
 
-onSnapshot(q,(snap)=>{
+unsubscribe = onSnapshot(q,(snap)=>{
 
 
 messages.innerHTML="";
@@ -161,6 +166,7 @@ ${data.text}
 `;
 
 
+
 });
 
 
@@ -175,9 +181,6 @@ ${data.text}
 
 
 
-
-
-// отправка сообщения
 
 
 send.onclick=async()=>{
@@ -232,15 +235,10 @@ input.value="";
 
 
 
-
-
-// добавить контакт
-
-
 addContact.onclick=async()=>{
 
 
-let email = contactEmail.value.trim();
+let email=contactEmail.value.trim();
 
 
 
@@ -267,12 +265,9 @@ email
 
 {
 
-
 email:email
 
-
 }
-
 
 );
 
@@ -294,13 +289,7 @@ loadContacts();
 
 
 
-
-
-// загрузка контактов
-
-
 async function loadContacts(){
-
 
 
 contacts.innerHTML = `
@@ -317,8 +306,6 @@ contacts.innerHTML = `
 
 
 
-
-// открыть общий чат
 
 
 document.getElementById("globalChat").onclick=()=>{
@@ -355,6 +342,7 @@ user.uid,
 
 
 
+
 snap.forEach((item)=>{
 
 
@@ -373,6 +361,7 @@ contacts.innerHTML += `
 👤 ${email}
 
 </button>
+
 
 
 <button class="delete-contact"
@@ -400,9 +389,6 @@ data-email="${email}">
 
 
 
-// открыть контакт
-
-
 document.querySelectorAll(".contact")
 
 .forEach(btn=>{
@@ -411,11 +397,11 @@ document.querySelectorAll(".contact")
 btn.onclick=()=>{
 
 
-let email = btn.innerText.replace("👤 ","");
+let email=btn.innerText.replace("👤 ","");
 
 
 
-let chatId = getChatId(
+let chatId=getChatId(
 
 user.email,
 
@@ -431,6 +417,7 @@ openChat(chatId);
 };
 
 
+
 });
 
 
@@ -441,9 +428,6 @@ openChat(chatId);
 
 
 
-// удалить контакт
-
-
 document.querySelectorAll(".delete-contact")
 
 .forEach(btn=>{
@@ -452,7 +436,7 @@ document.querySelectorAll(".delete-contact")
 btn.onclick=async()=>{
 
 
-let email = btn.dataset.email;
+let email=btn.dataset.email;
 
 
 
@@ -482,8 +466,8 @@ loadContacts();
 };
 
 
-});
 
+});
 
 
 }
@@ -494,9 +478,6 @@ loadContacts();
 
 
 
-
-
-// выход
 
 
 logout.onclick=async()=>{

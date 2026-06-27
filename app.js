@@ -1,19 +1,140 @@
-const messages=document.getElementById("messages");
+import { auth } from "./firebase.js";
 
-function send(){
+import {
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword,
+signOut,
+onAuthStateChanged
 
-let input=document.getElementById("text");
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-if(input.value=="") return;
 
-let div=document.createElement("div");
 
-div.innerHTML="<b>Вы:</b> "+input.value;
+const email = document.getElementById("email");
+const password = document.getElementById("password");
 
-messages.appendChild(div);
 
-input.value="";
+const registerBtn = document.getElementById("register");
+const loginBtn = document.getElementById("login");
 
-messages.scrollTop=messages.scrollHeight;
+const logoutBtn = document.getElementById("logout");
+
+const userPanel = document.getElementById("userPanel");
+
+const authBox = document.querySelector(".auth");
+
+
+
+
+
+// Регистрация
+
+registerBtn.onclick = async ()=>{
+
+try{
+
+
+await createUserWithEmailAndPassword(
+auth,
+email.value,
+password.value
+);
+
+
+alert("Аккаунт создан 🎉");
+
 
 }
+
+catch(error){
+
+alert(error.message);
+
+}
+
+
+};
+
+
+
+
+
+// Вход
+
+loginBtn.onclick = async ()=>{
+
+
+try{
+
+
+await signInWithEmailAndPassword(
+auth,
+email.value,
+password.value
+);
+
+
+alert("Вы вошли ✅");
+
+
+}
+
+
+catch(error){
+
+alert(error.message);
+
+}
+
+
+};
+
+
+
+
+
+
+// Проверка пользователя
+
+onAuthStateChanged(auth,(user)=>{
+
+
+if(user){
+
+
+authBox.classList.add("hidden");
+
+userPanel.classList.remove("hidden");
+
+
+}
+
+else{
+
+
+authBox.classList.remove("hidden");
+
+userPanel.classList.add("hidden");
+
+
+}
+
+
+});
+
+
+
+
+
+// Выход
+
+logoutBtn.onclick = async ()=>{
+
+
+await signOut(auth);
+
+
+alert("Вы вышли");
+
+
+};

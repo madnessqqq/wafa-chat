@@ -140,13 +140,46 @@ unsubscribe = onSnapshot(q,(snap)=>{
 messages.innerHTML="";
 
 
+
 snap.forEach((m)=>{
 
 
 let data=m.data();
 
 
+
+let deleteBtn = "";
+
+
+
+// тільки свої повідомлення
+
+if(data.user === user.email){
+
+
+deleteBtn = `
+
+
+<button class="delete-message"
+
+data-id="${m.id}">
+
+❌
+
+</button>
+
+
+`;
+
+}
+
+
+
 messages.innerHTML += `
+
+
+<div class="message">
+
 
 <p>
 
@@ -156,10 +189,59 @@ ${data.text}
 
 </p>
 
+
+${deleteBtn}
+
+
+</div>
+
+
 `;
 
 
+
 });
+
+
+
+
+
+document.querySelectorAll(".delete-message")
+
+.forEach(btn=>{
+
+
+btn.onclick=async()=>{
+
+
+let id = btn.dataset.id;
+
+
+
+await deleteDoc(
+
+doc(
+
+db,
+
+"chats",
+
+currentChat,
+
+"messages",
+
+id
+
+)
+
+);
+
+
+};
+
+
+});
+
 
 
 });
@@ -196,7 +278,6 @@ currentChat,
 
 ),
 
-
 {
 
 text:input.value,
@@ -206,7 +287,6 @@ user:user.email,
 time:serverTimestamp()
 
 }
-
 
 );
 
@@ -286,8 +366,6 @@ contacts.innerHTML = "";
 
 
 
-// общий чат
-
 contacts.insertAdjacentHTML(
 
 "beforeend",
@@ -307,15 +385,15 @@ contacts.insertAdjacentHTML(
 
 
 
-// обработчик общего чата
 
-document.getElementById("globalChat").onclick = ()=>{
+document.getElementById("globalChat").onclick=()=>{
 
 
 openChat("global");
 
 
 };
+
 
 
 

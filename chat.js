@@ -66,7 +66,6 @@ return [email1,email2]
 
 
 
-
 onAuthStateChanged(auth,(u)=>{
 
 
@@ -107,8 +106,6 @@ messages.innerHTML="";
 
 
 
-// выключаем старый чат
-
 if(unsubscribe){
 
 unsubscribe();
@@ -137,20 +134,16 @@ orderBy("time")
 
 
 
-
-
 unsubscribe = onSnapshot(q,(snap)=>{
 
 
 messages.innerHTML="";
 
 
-
 snap.forEach((m)=>{
 
 
 let data=m.data();
-
 
 
 messages.innerHTML += `
@@ -164,7 +157,6 @@ ${data.text}
 </p>
 
 `;
-
 
 
 });
@@ -207,13 +199,11 @@ currentChat,
 
 {
 
-
 text:input.value,
 
 user:user.email,
 
 time:serverTimestamp()
-
 
 }
 
@@ -238,7 +228,7 @@ input.value="";
 addContact.onclick=async()=>{
 
 
-let email=contactEmail.value.trim();
+let email = contactEmail.value.trim();
 
 
 
@@ -261,7 +251,6 @@ user.uid,
 email
 
 ),
-
 
 {
 
@@ -292,8 +281,18 @@ loadContacts();
 async function loadContacts(){
 
 
-contacts.innerHTML = `
 
+contacts.innerHTML = "";
+
+
+
+// общий чат
+
+contacts.insertAdjacentHTML(
+
+"beforeend",
+
+`
 
 <button class="chat-item" id="globalChat">
 
@@ -301,26 +300,22 @@ contacts.innerHTML = `
 
 </button>
 
+`
 
-`;
-
-
-
-
-const globalBtn = document.getElementById("globalChat");
+);
 
 
-if(globalBtn){
 
-globalBtn.addEventListener("click",()=>{
+
+// обработчик общего чата
+
+document.getElementById("globalChat").onclick = ()=>{
 
 
 openChat("global");
 
 
-});
-
-}
+};
 
 
 
@@ -347,8 +342,6 @@ user.uid,
 
 
 
-
-
 snap.forEach((item)=>{
 
 
@@ -356,8 +349,11 @@ let email=item.data().email;
 
 
 
-contacts.innerHTML += `
+contacts.insertAdjacentHTML(
 
+"beforeend",
+
+`
 
 <div class="contact-row">
 
@@ -381,9 +377,9 @@ data-email="${email}">
 
 </div>
 
+`
 
-`;
-
+);
 
 
 });
@@ -403,25 +399,24 @@ document.querySelectorAll(".contact")
 btn.onclick=()=>{
 
 
-let email=btn.innerText.replace("👤 ","");
+let email = btn.innerText.replace("👤 ","");
 
 
 
-let chatId=getChatId(
+openChat(
+
+getChatId(
 
 user.email,
 
 email
 
+)
+
 );
 
 
-
-openChat(chatId);
-
-
 };
-
 
 
 });
@@ -442,7 +437,7 @@ document.querySelectorAll(".delete-contact")
 btn.onclick=async()=>{
 
 
-let email=btn.dataset.email;
+let email = btn.dataset.email;
 
 
 
@@ -472,8 +467,8 @@ loadContacts();
 };
 
 
-
 });
+
 
 
 }

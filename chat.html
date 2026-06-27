@@ -21,107 +21,34 @@
 
 
 
-    <!-- Левая панель -->
-
-    <div class="sidebar">
+<div class="sidebar">
 
 
-        <h2>💬 WAFA</h2>
+<h2>💬 WAFA</h2>
 
 
-
-        <input 
-        id="contactEmail"
-        type="email"
-        placeholder="Email контакта"
-        >
+<input 
+id="contactEmail"
+placeholder="Email контакта"
+>
 
 
-
-        <button id="addContact">
-            ➕ Добавить контакт
-        </button>
-
+<button id="addContact">
+➕ Добавить контакт
+</button>
 
 
-        <h3>Мои чаты</h3>
+<h3>Мои чаты</h3>
 
 
+<div id="contacts">
 
-        <div id="contacts">
-
-
-            <button class="chat-item">
-                👤 Общий чат
-            </button>
+<button class="chat-item">
+👤 Общий чат
+</button>
 
 
-        </div>
-
-
-
-    </div>
-
-
-
-
-
-    <!-- Чат -->
-
-    <div class="chat-window">
-
-
-
-        <div class="chat-header">
-
-            💬 WAFA Chat
-
-        </div>
-
-
-
-
-
-        <div id="messages">
-
-        </div>
-
-
-
-
-
-
-        <div class="send-box">
-
-
-            <input 
-            id="messageInput"
-            placeholder="Написать сообщение..."
-            >
-
-
-
-            <button id="send">
-                ➤
-            </button>
-
-
-        </div>
-
-
-
-
-
-        <button id="logout">
-
-            🚪 Выйти
-
-        </button>
-
-
-
-    </div>
-
+</div>
 
 
 </div>
@@ -130,8 +57,58 @@
 
 
 
-<script type="module" src="chat.js"></script>
+<div class="chat-window">
 
+
+<div class="chat-header">
+
+WAFA Chat
+
+</div>
+
+
+
+<div id="messages">
+
+</div>
+
+
+
+
+<div class="send-box">
+
+
+<input 
+id="messageInput"
+placeholder="Сообщение..."
+>
+
+
+<button id="send">
+➤
+</button>
+
+
+</div>
+
+
+
+
+<button id="logout">
+Выйти
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<script type="module" src="chat.js"></script>
 
 
 </body>

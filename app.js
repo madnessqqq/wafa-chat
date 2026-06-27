@@ -18,7 +18,14 @@ const registerBtn = document.getElementById("register");
 const loginBtn = document.getElementById("login");
 
 const logoutBtn = document.getElementById("logout");
+const openChat = document.getElementById("openChat");
 
+
+openChat.onclick=()=>{
+
+window.location.href="chat.html";
+
+};
 const userPanel = document.getElementById("userPanel");
 
 const authBox = document.querySelector(".auth");

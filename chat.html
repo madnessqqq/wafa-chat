@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>WAFA Chat</title>
@@ -16,10 +17,44 @@
 <body>
 
 
-<div class="container">
+<div class="chat-app">
 
 
-<h1>💬 WAFA Chat</h1>
+<div class="sidebar">
+
+<h2>💬 WAFA</h2>
+
+
+<button class="chat-item">
+👤 Общий чат
+</button>
+
+
+<button class="chat-item">
+👥 Группа
+</button>
+
+
+<button class="chat-item">
+⭐ Избранное
+</button>
+
+
+</div>
+
+
+
+
+
+<div class="chat-window">
+
+
+<div class="chat-header">
+
+WAFA Chat
+
+</div>
+
 
 
 <div id="messages">
@@ -28,14 +63,25 @@
 
 
 
-<input id="messageInput" placeholder="Написать сообщение...">
+
+
+<div class="send-box">
+
+
+<input 
+id="messageInput"
+placeholder="Сообщение..."
+>
 
 
 <button id="send">
 
-Отправить
+➤
 
 </button>
+
+
+</div>
 
 
 
@@ -45,6 +91,8 @@
 
 </button>
 
+
+</div>
 
 
 </div>

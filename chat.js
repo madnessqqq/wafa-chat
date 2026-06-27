@@ -17,6 +17,7 @@ orderBy,
 doc,
 setDoc,
 getDocs,
+deleteDoc,
 serverTimestamp
 
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
@@ -48,7 +49,7 @@ const contactEmail = document.getElementById("contactEmail");
 
 
 
-// создаём одинаковый ID для двух людей
+// одинаковый ID чата для двух пользователей
 
 function getChatId(email1,email2){
 
@@ -57,6 +58,7 @@ return [email1,email2]
 .join("_");
 
 }
+
 
 
 
@@ -146,7 +148,7 @@ let data=m.data();
 
 
 
-messages.innerHTML+=`
+messages.innerHTML += `
 
 <p>
 
@@ -157,7 +159,6 @@ ${data.text}
 </p>
 
 `;
-
 
 
 });
@@ -176,7 +177,7 @@ ${data.text}
 
 
 
-// отправить сообщение
+// отправка сообщения
 
 
 send.onclick=async()=>{
@@ -231,23 +232,6 @@ input.value="";
 
 
 
-// общий чат
-
-
-document.querySelector(".chat-item").onclick=()=>{
-
-
-openChat("global");
-
-
-};
-
-
-
-
-
-
-
 
 
 // добавить контакт
@@ -256,7 +240,7 @@ openChat("global");
 addContact.onclick=async()=>{
 
 
-let email=contactEmail.value.trim();
+let email = contactEmail.value.trim();
 
 
 
@@ -283,7 +267,9 @@ email
 
 {
 
+
 email:email
+
 
 }
 
@@ -308,13 +294,43 @@ loadContacts();
 
 
 
+
+
 // загрузка контактов
 
 
 async function loadContacts(){
 
 
-contacts.innerHTML="";
+
+contacts.innerHTML = `
+
+
+<button class="chat-item" id="globalChat">
+
+🌍 Общий чат
+
+</button>
+
+
+`;
+
+
+
+
+// открыть общий чат
+
+
+document.getElementById("globalChat").onclick=()=>{
+
+
+openChat("global");
+
+
+};
+
+
+
 
 
 
@@ -324,7 +340,7 @@ collection(
 
 db,
 
-"users",
+"user",
 
 user.uid,
 
@@ -333,6 +349,7 @@ user.uid,
 )
 
 );
+
 
 
 
@@ -348,11 +365,26 @@ let email=item.data().email;
 contacts.innerHTML += `
 
 
+<div class="contact-row">
+
+
 <button class="chat-item contact">
 
 👤 ${email}
 
 </button>
+
+
+<button class="delete-contact"
+
+data-email="${email}">
+
+❌
+
+</button>
+
+
+</div>
 
 
 `;
@@ -365,6 +397,10 @@ contacts.innerHTML += `
 
 
 
+
+
+
+// открыть контакт
 
 
 document.querySelectorAll(".contact")
@@ -394,6 +430,56 @@ openChat(chatId);
 
 };
 
+
+});
+
+
+
+
+
+
+
+
+
+// удалить контакт
+
+
+document.querySelectorAll(".delete-contact")
+
+.forEach(btn=>{
+
+
+btn.onclick=async()=>{
+
+
+let email = btn.dataset.email;
+
+
+
+await deleteDoc(
+
+doc(
+
+db,
+
+"users",
+
+user.uid,
+
+"contacts",
+
+email
+
+)
+
+);
+
+
+
+loadContacts();
+
+
+};
 
 
 });

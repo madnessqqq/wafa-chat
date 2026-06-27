@@ -307,14 +307,20 @@ contacts.innerHTML = `
 
 
 
+const globalBtn = document.getElementById("globalChat");
 
-document.getElementById("globalChat").onclick=()=>{
+
+if(globalBtn){
+
+globalBtn.addEventListener("click",()=>{
 
 
 openChat("global");
 
 
-};
+});
+
+}
 
 
 

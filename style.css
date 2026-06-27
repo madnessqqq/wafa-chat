@@ -421,3 +421,31 @@ button:hover{
 
 
 }
+.message{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+}
+
+
+
+.delete-message{
+
+width:40px;
+
+padding:5px;
+
+background:#dc2626;
+
+}
+
+
+.delete-message:hover{
+
+background:#b91c1c;
+
+}

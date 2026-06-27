@@ -340,7 +340,7 @@ collection(
 
 db,
 
-"user",
+"users",
 
 user.uid,
 
